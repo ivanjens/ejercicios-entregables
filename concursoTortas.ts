@@ -13,15 +13,20 @@ Utiliza la librería readline-sync para pedir al usuario el número de participa
 
 *Si lo consideran necesario, pueden implementar funciones extra. */
 
-const participantes: number = rs.questionInt('Ingrese la cantidad de participantes: ');
+let participantes: number;
 const NOTA_MINIMA: number = 1;
 const NOTA_MAXIMA: number = 5;
 
+do{
+    participantes = rs.questionInt('Ingrese la cantidad de participantes: ');
+} while(participantes <= 0);
 
+
+// recorre la cantidad de participantes y retorna que participante sacó más puntos
 const determinarGanador = () : number =>{
     let ganador: number = 0;
     let mejorPuntuacion: number = 0;
-    for(let i: number = 1; i <= participantes; i++){ // se inicializa en 1 para evitar retornar ganador + 1 y ganador = 0 es empate.
+    for(let i: number = 1; i <= participantes; i++){ // ganador = 0 es empate, el index se inicializa en 1 para evitar retornar ganador + 1 
         let puntuacionParticipante: number = evaluarParticipante(i);
         if(puntuacionParticipante > mejorPuntuacion){
             ganador = i;
@@ -33,10 +38,12 @@ const determinarGanador = () : number =>{
     return ganador;
 }
 
+// calcula y retorna el puntaje de la torta
 const calcularPuntaje = (sabor: number, dificultad: number, presentacion: number) : number =>{
     return sabor + dificultad + presentacion;
 }
 
+// solicita las puntuaciones de cada torta y retorna la sumatoria de la misma
 const evaluarParticipante = (nroParticipante: number) : number =>{
     let sabor: number;
     let presentacion: number;
@@ -52,7 +59,6 @@ const evaluarParticipante = (nroParticipante: number) : number =>{
      }while(NOTA_MINIMA > dificultad || dificultad > NOTA_MAXIMA); 
     return calcularPuntaje(sabor, presentacion, dificultad);
 }
-
 
 
 let ganador = determinarGanador();
